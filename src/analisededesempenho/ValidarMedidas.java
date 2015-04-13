@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package analisededesempenho;
 
 import java.util.Random;
@@ -30,8 +24,7 @@ public class ValidarMedidas {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
+       
         double parametroChegadas = 1.0 / 5.0; //parametro Exponencial
         double parametroServico = 1.0 / 4.5; //parametro Exponencial
         

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package analisededesempenho;
 
 import java.util.Random;
@@ -25,7 +20,7 @@ public class Main {
         return 1.0 - r.nextDouble();
     }
 
-    private static double min(double num1, double num2) {
+    private static double minimo(double num1, double num2) {
         if (num1 < num2) {
             return (num1);
         } else {
@@ -37,15 +32,14 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* 
+        /*
          * raciocinio para o desenvolvimento:
          * intervalo entre chegadas: media 5.0 segundos
          * tempo de atendimento: media 4.5 segundos
          */
 
         /**
-         * ***************************
-         * Declaração das variaveis * ***************************
+         * Declaração das variaveis
          */
         double parametroChegadas = 1.0 / 5.0; //parametro Exponencial
         double parametroServico = 1.0 / 4.5; //parametro Exponencial
@@ -57,9 +51,9 @@ public class Main {
         double saidaPessoa = 0.0; //tempo de saida da pessoa em atendimento
 
         double fila = 0.0;
-        
+
         double ocupacao = 0.0;
-        
+
         /**
          * Variaveis para o calculo de medidas E[N] E[W] lambda
          */
@@ -81,11 +75,11 @@ public class Main {
 
         while (true) {
             if (saidaPessoa > 0.0) {
-                tempoDecorrido = min(chegadaPessoa, saidaPessoa);
+                tempoDecorrido = minimo(chegadaPessoa, saidaPessoa);
             } else {
                 tempoDecorrido = chegadaPessoa;
             }
-            
+
             if (tempoDecorrido > tempoSimulacao) {
                 eNSoma += eNNumEventos * (tempoDecorrido - eNTempoAnterior);
                 eWSaidaSoma += eWSaidaNumEventos * (tempoDecorrido - eWSaidaTempoAnterior);
@@ -94,8 +88,9 @@ public class Main {
             }
 
             if (tempoDecorrido == chegadaPessoa) {
-			//evento de chegar uma pessoa no sistema
-			/*raciocinio
+                //evento de chegar uma pessoa no sistema
+                
+                /*raciocinio
                  * incrementar fila
                  * - caixa livre?
                  *     pessoa entra em atendimento
@@ -112,7 +107,7 @@ public class Main {
                 }
 
                 chegadaPessoa = tempoDecorrido + (-1.0 / parametroChegadas) * Math.log(aleatorio());
-                
+
                 eNSoma += eNNumEventos * (tempoDecorrido - eNTempoAnterior);
                 eNTempoAnterior = tempoDecorrido;
                 eNNumEventos++;
@@ -121,7 +116,8 @@ public class Main {
                 eWChegadaTempoAnterior = tempoDecorrido;
                 eWChegadaNumEventos++;
             } else {
-			//evento de sair uma pessoa do caixa
+                //evento de sair uma pessoa do caixa
+                
                 /*raciocinio
                  * decrementar fila
                  * - existe pessoa na fila?
@@ -136,7 +132,7 @@ public class Main {
                 } else {
                     saidaPessoa = 0.0;
                 }
-                
+
                 eNSoma += eNNumEventos * (tempoDecorrido - eNTempoAnterior);
                 eNTempoAnterior = tempoDecorrido;
                 eNNumEventos--;
@@ -146,10 +142,10 @@ public class Main {
                 eWSaidaNumEventos++;
             }
         }
-        
+
         double lambda = eWChegadaNumEventos / tempoDecorrido;
         double eW = (eWChegadaSoma - eWSaidaSoma) / eWChegadaNumEventos;
-        
+
         System.out.println("Ocupacao: " + ocupacao / tempoDecorrido);
         System.out.println("Lambda: " + lambda);
         System.out.println("E[W]: " + eW);
